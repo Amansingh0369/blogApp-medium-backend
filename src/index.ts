@@ -1,9 +1,12 @@
 import express, {NextFunction, Request, Response} from "express";
 import {PrismaClient} from "@prisma/client";
 import jsonwebtoken from "jsonwebtoken";
+import cors from "cors";
 
 const app = express();
+
 app.use(express.json());
+app.use(cors())
 
 const prisma = new PrismaClient();
 const jwt = jsonwebtoken;
