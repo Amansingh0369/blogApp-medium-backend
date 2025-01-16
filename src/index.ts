@@ -107,7 +107,19 @@ app.post('/api/v1/blog', authMiddleware , async (req: Request, res: Response) =>
 
 app.get('/api/v1/post/bulk', async  (req: Request, res: Response) => {
     try{
-        const posts = await prisma.post.findMany();
+        const posts = await prisma.post.findMany({
+            select:{
+                content:true,
+                title:true,
+                id:true,
+                author:{
+                    select:{
+                        name:true,
+                        email:true,
+                    }
+                }
+            }
+        });
         res.json({
             posts
         })
