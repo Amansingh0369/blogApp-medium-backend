@@ -110,15 +110,19 @@ app.post('/api/v1/blog', authMiddleware, (req, res) => __awaiter(void 0, void 0,
 }));
 app.get('/api/v1/post/bulk', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
-        const posts = yield prisma.post.findMany();
-        res.json({
-            posts
+        const posts = yield prisma.post.findMany({
+            include: {
+                author: true
+            }
+        });
+        res.status(200).json({
+            posts,
         });
     }
-    catch (e) {
-        console.log(e);
-        res.status(411).json({
-            msg: "cant fetch blog post from server",
+    catch (error) {
+        console.error("Error fetching blog posts:", error);
+        res.status(500).json({
+            msg: "Unable to fetch blog posts from the server. Please try again later.",
         });
     }
 }));
