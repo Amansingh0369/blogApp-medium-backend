@@ -105,32 +105,34 @@ app.post('/api/v1/blog', authMiddleware , async (req: Request, res: Response) =>
 });
 
 
-app.get('/api/v1/post/bulk', async  (req: Request, res: Response) => {
-    try{
+app.get('/api/v1/post/bulk', async (req: Request, res: Response) => {
+    try {
         const posts = await prisma.post.findMany({
-            select:{
-                content:true,
-                title:true,
-                id:true,
-                author:{
-                    select:{
-                        name:true,
-                        email:true,
-                    }
-                }
-            }
+            select: {
+                id: true,
+                title: true,
+                content: true,
+                authorId: true, // Include this only if you need it explicitly
+                author: {
+                    select: {
+                        name: true,
+                        email: true,
+                    },
+                },
+            },
         });
-        res.json({
-            posts
-        })
-    }
-    catch (e) {
-        console.log(e);
-        res.status(411).json({
-            msg:"cant fetch blog post from server",
-        })
+
+        res.status(200).json({
+            posts,
+        });
+    } catch (error) {
+        console.error("Error fetching blog posts:", error);
+        res.status(500).json({
+            msg: "Unable to fetch blog posts from the server. Please try again later.",
+        });
     }
 });
+
 
 app.put('/api/v1/blog/:id', async (req: Request, res: Response) => {
     const id = req.params.id;

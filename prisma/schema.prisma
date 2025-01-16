@@ -16,10 +16,11 @@ model User {
 }
 
 model Post {
-  id        String  @id @default(uuid())
-  title     String
-  content   String
-  published Boolean @default(false)
-  author    User    @relation(fields: [authorId], references: [id])
-  authorId  String
+  id         String  @id @default(uuid())
+  title      String
+  content    String
+  published  Boolean @default(false)
+  author     User    @relation(fields: [authorId], [authorname], references: [id], [name])
+  authorId   String
+  authorname String
 }
