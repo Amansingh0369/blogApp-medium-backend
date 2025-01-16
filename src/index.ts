@@ -6,7 +6,17 @@ import cors from "cors";
 const app = express();
 
 app.use(express.json());
-app.use(cors())
+app.use(
+    cors({
+        origin: [
+            "http://localhost:5173",
+            "https://blog-app-medium-frontend.vercel.app",
+            "https://blog-app.amansingh0369.me",
+        ],
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true,
+    })
+);
 
 const prisma = new PrismaClient();
 const jwt = jsonwebtoken;
