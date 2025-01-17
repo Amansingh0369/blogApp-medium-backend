@@ -134,9 +134,13 @@ app.put('/api/v1/blog/:id', async (req: Request, res: Response) => {
             where:{
                 id:id,
             },
+            include:{
+                author : true
+            },
             data: {
                 title: body.title,
                 content: body.content,
+
             }
         });
 
@@ -159,7 +163,10 @@ app.get('/api/v1/blog/:id', async (req: Request, res: Response) => {
         const post = await prisma.post.findFirst({
             where:{
                 id:id,
-            }
+            },
+            include:{
+                author : true
+            },
         });
 
         res.json({

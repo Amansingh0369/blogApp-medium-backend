@@ -135,6 +135,9 @@ app.put('/api/v1/blog/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
             where: {
                 id: id,
             },
+            include: {
+                author: true
+            },
             data: {
                 title: body.title,
                 content: body.content,
@@ -157,7 +160,10 @@ app.get('/api/v1/blog/:id', (req, res) => __awaiter(void 0, void 0, void 0, func
         const post = yield prisma.post.findFirst({
             where: {
                 id: id,
-            }
+            },
+            include: {
+                author: true
+            },
         });
         res.json({
             post
